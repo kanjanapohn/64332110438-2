@@ -1,0 +1,14 @@
+.log-in li{
+    display: none;
+}
+.aferlogin{
+    border: 1px solid black;
+    margin-left: 30rem;
+}
+.aferlogin h2{
+    border: 1px solid black;
+    color: red;
+}
+.dropbtn{
+    color: azure;
+}

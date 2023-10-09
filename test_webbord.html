@@ -1,0 +1,72 @@
+<?php
+session_start();
+include('server.php');
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Board</title>
+</head>
+
+<body>
+    <!-- <div class="body"> -->
+        <div>
+            <div class="h4 text-center alert alert-dark md-3 mt-3" role="alert">แสดงกระทู้</div>
+            <!-- ปุ่มเพิ่มกระทู้ -->
+            <?php if (isset($_SESSION['userID'])) { ?>
+                <a href="add_topic.php?userID=<?= $_SESSION['userID'] ?>" class="btn btn-success mb-4">Add</a>
+            <?php } ?>
+            <table class="table table-striped-columns">
+                <tr>
+                    <!-- โชว์ชื่อฟิลด์ -->
+                    <th>User</th>
+                    <th>topicID</th>
+                    <th>topicname</th>
+                    <th>Show</th>
+                    <!-- <th>Edit</th>
+                    <th>Delete</th> -->
+                </tr>
+                <?php
+                // ดึงข้อมูลจาก DB
+                $sql = "SELECT users.userName, topics.topicID, topics.topicName FROM topics inner join users on topics.userID = users.userID";
+                $result = mysqli_query($conn, $sql);
+                // ดึงข้อมูลเรียบร้อย
+
+                // แสดงกระทู้ทั้งหมดของเรา
+                while ($row = mysqli_fetch_array($result)) {
+                ?>
+                    <tr>
+                        <!--ดึงข้อมูลแสดง userName-->
+                        <td><?= $row['userName'] ?></td>
+                        <td><?= $row['topicID'] ?></td>
+                        <td><?= $row['topicName'] ?></td>
+                        <!-- ปุ่มต่างๆ -->
+                        <td><a href="show_topic.php?topicID=<?= $row['topicID'] ?>" class="btn btn-primary">Show</a></td>
+                    </tr>
+                <?php
+                }
+                mysqli_close($conn);
+                ?>
+            </table>
+        </div>
+    <!-- </div> -->
+    <footer>
+        <p>&copy; 2023 by Arnon and The gangs</p>
+    </footer>
+</body>
+
+
+
+</html>
+<!-- ถามความต้องการที่จะลบกระทู้ -->
+<script language="Javascript">
+    function Del(mypage) {
+        var agree = confirm("คุณต้องการลบกระทู้หรือไม่");
+        if (agree) {
+            window.location = mypage;
+        }
+    }
+</script>
